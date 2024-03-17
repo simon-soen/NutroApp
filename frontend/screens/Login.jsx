@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, TextInput, Button, StyleSheet, Alert } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useUser, updateUser } from "../contexts/UserContext"; // Import updateUser from UserContext
+import { API_URL } from '@env';
 
 const Login = ({ navigation }) => {
   const [userId, setUserId] = useState('');
@@ -10,7 +11,7 @@ const Login = ({ navigation }) => {
 
   const handleLogin = async () => {
     try {
-      const response = await fetch('http://192.168.0.118:5000/login', {
+      const response = await fetch(`${API_URL}/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -67,7 +68,7 @@ const Signup = ({ navigation }) => {
 
   const handleSignup = async () => {
     try {
-      const response = await fetch('http://192.168.8.101:5000/signup', {
+      const response = await fetch(`${API_URL}/signup`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

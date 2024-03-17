@@ -4,6 +4,7 @@ import axios from 'axios';
 import { useNavigation } from '@react-navigation/native';
 import { useUser } from '../contexts/UserContext';
 import { Ionicons } from '@expo/vector-icons';
+import { API_URL } from '@env';
 
 const Grocery = () => {
     const { userData } = useUser();
@@ -14,7 +15,7 @@ const Grocery = () => {
     // Function to fetch the grocery list from the backend
     const fetchGroceryList = async () => {
         try {
-            const response = await axios.get(`http://192.168.0.118:5000/grocery/${userData.user_id}`);
+            const response = await axios.get(`${API_URL}/grocery/${userData.user_id}`);
             setGroceryItems(response.data.grocery_items);
         } catch (error) {
             console.error('Error fetching grocery list:', error);
@@ -31,13 +32,14 @@ const Grocery = () => {
     const addItem = async () => {
         if (newItem.trim() !== '') {
             try {
-                const response = await axios.post('http://192.168.0.118:5000/grocery/add', {
+                const response = await axios.post(`${API_URL}/grocery/add`, {
                     name: newItem,
                     quantity: '',
                     user_id: userData.user_id
                 });
                 Alert.alert('Success', response.data.message); 
                 setNewItem('');
+                Alert.alert('Success', response.data.message); 
                 fetchGroceryList(); // Refresh the grocery list after adding an item
             } catch (error) {
                 console.error('Error adding item to grocery list:', error);
@@ -49,7 +51,7 @@ const Grocery = () => {
     // Function to delete an item from the grocery list
     const removeItem = async (id) => {
         try {
-            const response = await axios.delete(`http://192.168.0.118:5000/grocery/${id}`);
+            const response = await axios.delete(`${API_URL}/grocery/${id}`);
             setGroceryItems(groceryItems.filter(item => item.id !== id));
             Alert.alert('Message', response.data.message);
             fetchGroceryList();
@@ -67,7 +69,7 @@ const Grocery = () => {
         try {
             // Implement logic to purchase all items
             // For example, you can send a request to your backend to handle the purchase process
-            await axios.post('http://192.168.0.118:5000/grocery/buy-all', {
+            await axios.post(`${API_URL}/grocery/buy-all`, {
                 user_id: userData.user_id
             });
             Alert.alert('Success', 'All items purchased successfully.');
@@ -106,7 +108,7 @@ const Grocery = () => {
                     <View style={styles.itemContainer}>
                         <Text style={styles.itemText}>{item.name}</Text>
                         <TouchableOpacity onPress={() => removeItem(item.id)}>
-                            <Text style={styles.deleteButton}>X</Text>
+                            <Text style={styles.deleteButton}>Remove</Text>
                         </TouchableOpacity>
                     </View>
                 )}
@@ -123,7 +125,8 @@ const Grocery = () => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        padding: 20,
+        padding: 30,
+        marginTop: 20,
     },
     header: {
         flexDirection: 'row',
@@ -164,7 +167,8 @@ const styles = StyleSheet.create({
     },
     buttonText: {
         color: 'white',
-        fontSize: 16,
+        fontSize: 18,
+
     },
     itemContainer: {
         flexDirection: 'row',

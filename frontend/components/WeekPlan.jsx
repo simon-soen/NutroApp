@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { View, Button, Alert } from 'react-native';
 import { useUser } from '../contexts/UserContext';
 import WeeklyMealPlan from './WeeklyMealPlan';
+import { API_URL } from '@env';
 
 const WeekPlan = () => {
   const { userData } = useUser();
@@ -9,7 +10,7 @@ const WeekPlan = () => {
 
   const generateMealPlan = async () => {
     try {
-      const response = await fetch(`http://192.168.0.118:5000/weekly_meal_plan/${userData.user_id}`);
+      const response = await fetch(`${API_URL}/weekly_meal_plan/${userData.user_id}`);
       if (response.ok) {
         const data = await response.json();
         setMealPlan(data);
@@ -24,7 +25,7 @@ const WeekPlan = () => {
 
   const regenerateMealPlan = async () => {
     try {
-      const response = await fetch(`http://192.168.0.118:5000/weekly_meal_plan/${userData.user_id}`, {
+      const response = await fetch(`${API_URL}/weekly_meal_plan/${userData.user_id}`, {
         method: 'PUT',
       });
       

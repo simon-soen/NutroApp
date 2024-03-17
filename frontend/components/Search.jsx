@@ -5,6 +5,7 @@ import { Feather } from '@expo/vector-icons';
 import SearchTile from './SearchTile';
 import axios from 'axios';
 import { useUser } from "../contexts/UserContext";
+import { API_URL } from '@env';
 
 const Search = () => {
   const [searchKey, setSearchKey] = useState('');
@@ -13,7 +14,7 @@ const Search = () => {
 
   const handleSearch = async () => {
     try {
-      const response = await axios.post('http://192.168.0.118:5000/recommend_meals', {
+      const response = await axios.post(`${API_URL}/recommend_meals`, {
         user_id: userData.user_id,
         meal_name: searchKey
       });

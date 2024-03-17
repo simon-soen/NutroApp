@@ -9,14 +9,20 @@ from datetime import datetime, timedelta
 from flask_cors import CORS
 from flask_jwt_extended import JWTManager, create_access_token
 from jwt.exceptions import DecodeError
+import os
+from dotenv import load_dotenv
+
+
+
+load_dotenv()
 
 app = Flask(__name__)
-app.secret_key = '9141'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:9141@localhost/nutrition_app'
+app.secret_key = os.getenv('SECRET_KEY')
+app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URI')
 db = SQLAlchemy(app)
 CORS(app)
 app.config['CORS_HEADERS'] = 'application/json'
-app.config['JWT_SECRET_KEY'] = 'your_secret_key'
+app.config['JWT_SECRET_KEY'] = os.getenv('JWT_SECRET_KEY')
 jwt = JWTManager(app)
 
 threshold_values = {

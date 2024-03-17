@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
+import { API_URL } from '@env';
 
 const UserContext = createContext();
 
@@ -19,7 +20,7 @@ export const UserProvider = ({ children }) => {
   const refreshGroceryList = async () => {
     if (userData) {
       try {
-        const response = await axios.get(`http://192.168.0.118:5000/grocery/${userData.user_id}`);
+        const response = await axios.get(`${API_URL}/grocery/${userData.user_id}`);
         setGroceryItems(response.data); // Assuming the response contains the grocery items
       } catch (error) {
         console.error('Error refreshing grocery list:', error);

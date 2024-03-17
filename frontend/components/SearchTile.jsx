@@ -2,13 +2,14 @@ import React from 'react';
 import { View, ScrollView, Image, Text, StyleSheet, TouchableOpacity, Alert } from 'react-native';
 import { useUser } from "../contexts/UserContext";
 import axios from 'axios';
+import { API_URL } from '@env';
 
 const SearchTile = ({ item }) => {
     const { userData, refreshGroceryList } = useUser();
 
     const addToGrocery = async () => {
         try {
-            const response = await axios.post('http://192.168.0.118:5000/grocery/add', {
+            const response = await axios.post(`${API_URL}/grocery/add`, {
                 user_id: userData.user_id,
                 name: item,
                 quantity: '1', 

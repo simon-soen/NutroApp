@@ -4,6 +4,7 @@ import style from "./profile.styles";
 import { COLORS } from "../constants";
 import { useUser } from "../contexts/UserContext";
 import axios from 'axios';
+import { API_URL } from '@env';
 
 const Profile = ({ navigation }) => {
   const { userData, setUser } = useUser();
@@ -21,7 +22,7 @@ const Profile = ({ navigation }) => {
 
   const fetchUserProfile = async () => {
     try {
-      const response = await axios.get(`http://192.168.0.118:5000/profile/${userData.user_id}`);
+      const response = await axios.get(`${API_URL}/profile/${userData.user_id}`);
       if (response.status === 200) {
         const userData = response.data;
         setName(userData.name || "");
@@ -38,7 +39,7 @@ const Profile = ({ navigation }) => {
 
   const updateUserProfile = async () => {
     try {
-      const response = await axios.put(`http://192.168.0.118:5000/profile/${userData.user_id}`, {
+      const response = await axios.put(`${API_URL}/profile/${userData.user_id}`, {
         name,
         age: parseInt(age),
         diagnosed_conditions: diagnosedConditions.split(",").map(condition => condition.trim())

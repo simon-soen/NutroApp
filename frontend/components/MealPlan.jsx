@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { SafeAreaView, ScrollView, StyleSheet, Text, ImageBackground, View, TouchableOpacity, Button, Alert } from "react-native";
 import { useUser } from "../contexts/UserContext";
 import axios from "axios";
+import { API_URL } from '@env';
 
 const MealPlan = () => {
     const { userData, refreshGroceryList, groceryItems } = useUser(); // Assuming groceryItems is retrieved from the context
@@ -12,7 +13,7 @@ const MealPlan = () => {
         const fetchMealPlan = async () => {
             if (userData) {
                 try {
-                    const response = await fetch(`http://192.168.0.118:5000/weekly_meal_plan/${userData.user_id}`, { mode: 'cors' });
+                    const response = await fetch(`${API_URL}/weekly_meal_plan/${userData.user_id}`, { mode: 'cors' });
                     const data = await response.json();
                     const currentDate = new Date().toISOString().split('T')[0];
                     const todaysMealPlan = data[currentDate];
@@ -38,7 +39,7 @@ const MealPlan = () => {
                     continue;
                 }
     
-                const response = await axios.post('http://192.168.0.118:5000/grocery/add', {
+                const response = await axios.post(`${API_URL}/grocery/add`, {
                     user_id: userData.user_id,
                     name: meal,
                     quantity: '1', 
