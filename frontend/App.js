@@ -14,7 +14,6 @@ import {
   Resources,
   Meals,
   FrontPage,
-  LoginScreen
 } from './screens/index';
 import { StatusBar } from 'expo-status-bar';
 import Grocery from './components/Grocery';
@@ -35,7 +34,6 @@ export default function App() {
     return null;
   }
 
-  const [showGrocery, setShowGrocery] = useState(false);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -54,7 +52,6 @@ export default function App() {
           </Stack.Navigator>
         </NavigationContainer>
       </UserProvider>
-      {showGrocery && <Grocery />}
     </SafeAreaView>
   );
 }
