@@ -1,17 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, TouchableOpacity, FlatList, StyleSheet, Alert} from 'react-native';
 import axios from 'axios';
+import { useNavigation } from '@react-navigation/native';
 import { useUser } from '../contexts/UserContext';
+import { Ionicons } from '@expo/vector-icons';
 
 const Grocery = () => {
     const { userData } = useUser();
     const [groceryItems, setGroceryItems] = useState([]);
     const [newItem, setNewItem] = useState('');
+    const navigation = useNavigation();
 
     // Function to fetch the grocery list from the backend
     const fetchGroceryList = async () => {
         try {
-            const response = await axios.get(`http://192.168.8.101:5000/grocery/${userData.user_id}`);
+            const response = await axios.get(`http://192.168.0.118:5000/grocery/${userData.user_id}`);
             setGroceryItems(response.data.grocery_items);
         } catch (error) {
             console.error('Error fetching grocery list:', error);
@@ -28,7 +31,7 @@ const Grocery = () => {
     const addItem = async () => {
         if (newItem.trim() !== '') {
             try {
-                const response = await axios.post('http://192.168.8.101:5000/grocery/add', {
+                const response = await axios.post('http://192.168.0.118:5000/grocery/add', {
                     name: newItem,
                     quantity: '',
                     user_id: userData.user_id
@@ -46,7 +49,7 @@ const Grocery = () => {
     // Function to delete an item from the grocery list
     const removeItem = async (id) => {
         try {
-            const response = await axios.delete(`http://192.168.8.101:5000/grocery/${id}`);
+            const response = await axios.delete(`http://192.168.0.118:5000/grocery/${id}`);
             setGroceryItems(groceryItems.filter(item => item.id !== id));
             Alert.alert('Message', response.data.message);
             fetchGroceryList();
@@ -55,11 +58,37 @@ const Grocery = () => {
             Alert.alert('Error', 'Failed to delete item from grocery list. Please try again later.');
         }
     };
-    
+
+    const handleCartPress = () => {
+        navigation.goBack();
+    };
+
+    const handleBuyAllPress = async () => {
+        try {
+            // Implement logic to purchase all items
+            // For example, you can send a request to your backend to handle the purchase process
+            await axios.post('http://192.168.0.118:5000/grocery/buy-all', {
+                user_id: userData.user_id
+            });
+            Alert.alert('Success', 'All items purchased successfully.');
+            fetchGroceryList(); // Refresh the grocery list after purchasing all items
+        } catch (error) {
+            console.error('Error purchasing items:', error);
+            Alert.alert('Error', 'Failed to purchase items. Please try again later.');
+        }
+    };
 
     return (
         <View style={styles.container}>
-            <Text style={styles.title}>Grocery List</Text>
+            <View style={styles.header}>
+                <TouchableOpacity onPress={handleCartPress}>
+                    <Ionicons name="arrow-back" size={30} color="black" />
+                </TouchableOpacity>
+                <Text style={styles.title}>Grocery List</Text>
+                <TouchableOpacity style={styles.cartContainer} onPress={handleCartPress}>
+                    <Ionicons name="cart" size={30} color="black" />
+                </TouchableOpacity>
+            </View>
             <View style={styles.inputContainer}>
                 <TextInput
                     style={styles.input}
@@ -83,6 +112,9 @@ const Grocery = () => {
                 )}
                 keyExtractor={item => item.id.toString()}
             />
+            <TouchableOpacity style={styles.buyAllButton} onPress={handleBuyAllPress}>
+                <Text style={styles.buttonText}>Buy All</Text>
+            </TouchableOpacity>
         </View>
     );
 };
@@ -93,10 +125,15 @@ const styles = StyleSheet.create({
         flex: 1,
         padding: 20,
     },
+    header: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        marginBottom: 20,
+    },
     title: {
         fontSize: 24,
         fontWeight: 'bold',
-        marginBottom: 20,
     },
     inputContainer: {
         flexDirection: 'row',
@@ -117,6 +154,14 @@ const styles = StyleSheet.create({
         marginLeft: 10,
         paddingHorizontal: 15,
     },
+    buyAllButton: {
+        backgroundColor: 'green',
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderRadius: 5,
+        marginTop: 10,
+        paddingVertical: 15,
+    },
     buttonText: {
         color: 'white',
         fontSize: 16,
@@ -133,6 +178,10 @@ const styles = StyleSheet.create({
     deleteButton: {
         color: 'red',
         fontSize: 18,
+    },
+    cartContainer: {
+        justifyContent: 'center',
+        alignItems: 'center',
     },
 });
 

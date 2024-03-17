@@ -21,7 +21,7 @@ const Profile = ({ navigation }) => {
 
   const fetchUserProfile = async () => {
     try {
-      const response = await axios.get(`http://192.168.8.101:5000/profile/${userData.user_id}`);
+      const response = await axios.get(`http://192.168.0.118:5000/profile/${userData.user_id}`);
       if (response.status === 200) {
         const userData = response.data;
         setName(userData.name || "");
@@ -38,7 +38,7 @@ const Profile = ({ navigation }) => {
 
   const updateUserProfile = async () => {
     try {
-      const response = await axios.put(`http://192.168.8.101:5000/profile/${userData.user_id}`, {
+      const response = await axios.put(`http://192.168.0.118:5000/profile/${userData.user_id}`, {
         name,
         age: parseInt(age),
         diagnosed_conditions: diagnosedConditions.split(",").map(condition => condition.trim())

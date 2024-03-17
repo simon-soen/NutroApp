@@ -10,7 +10,7 @@ const CartScreen = () => {
     useEffect(() => {
         const fetchCartItems = async () => {
             try {
-                const response = await axios.get(`http://192.168.8.101:5000/cart/${userData.user_id}`);
+                const response = await axios.get(`http://192.168.0.118:5000/cart/${userData.user_id}`);
                 
                 setCartItems(response.data.cart_items);
                 console.log(cartItems)

@@ -4,6 +4,7 @@ import { COLORS } from '../constants';
 const style = StyleSheet.create({
    container:{
       marginBottom:60,
+      marginTop:20,
    },
   header: {
     backgroundColor: COLORS.white,

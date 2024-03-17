@@ -16,8 +16,6 @@ const Home = () => {
                             return <Welcome />;
                         case 'MealPlan':
                             return <MealPlan />;
-                        case 'Grocery':
-                            return <Grocery />;
                         default:
                             return null;
                     }

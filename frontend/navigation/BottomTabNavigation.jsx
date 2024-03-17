@@ -40,7 +40,7 @@ const BottomTabNavigation = () => {
           tabBarIcon: ({ focused }) => (
             <Ionicons
               name={focused ? "home" : "home-outline"}
-              size={20}
+              size={24}
               color={focused ? COLORS.primary : COLORS.gray}
             />
           ),
@@ -50,22 +50,21 @@ const BottomTabNavigation = () => {
  
 
 
-      <Tab.Screen
-        name="Meals" 
+    <Tab.Screen
+        name="Meals"
         component={Meals}
         options={{
-          tabBarIcon: ({focused}) => {
-            return(
-              <Ionicons 
-                name={"search-sharp"}
-                size={20}
-                color={focused ? COLORS.primary : COLORS.gray}
-              />
-            );
-          },
+            tabBarIcon: ({ focused }) => (
+                <MaterialCommunityIcons
+                    name={focused ? "food-takeout-box" : "food-takeout-box-outline"}
+                    size={24}
+                    color={focused ? COLORS.primary : COLORS.gray}
+                />
+            ),
         }}
-      />  
-    <Tab.Screen
+    />
+
+        <Tab.Screen
         name="Resources"
         component={Resources}
         options={{
@@ -73,7 +72,7 @@ const BottomTabNavigation = () => {
             return(
               <Ionicons 
                 name={focused ? "book" : "book-outline"}
-                size={20}
+                size={24}
                 color={focused ? COLORS.primary : COLORS.gray}
               />
             );
@@ -88,7 +87,7 @@ const BottomTabNavigation = () => {
             return(
               <Ionicons 
                 name={focused ? "person" : "person-outline"}
-                size={20}
+                size={24}
                 color={focused ? COLORS.primary : COLORS.gray}
               />
             );

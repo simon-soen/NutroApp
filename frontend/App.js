@@ -3,7 +3,7 @@ import BottomTabNavigation from './navigation/BottomTabNavigation';
 import { UserProvider } from './contexts/UserContext';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import React from 'react';
+import React, {useState} from 'react';
 import { View, StyleSheet, SafeAreaView } from 'react-native';
 import {
   Home,
@@ -17,6 +17,7 @@ import {
   LoginScreen
 } from './screens/index';
 import { StatusBar } from 'expo-status-bar';
+import Grocery from './components/Grocery';
 
 const Stack = createNativeStackNavigator();
 
@@ -34,6 +35,8 @@ export default function App() {
     return null;
   }
 
+  const [showGrocery, setShowGrocery] = useState(false);
+
   return (
     <SafeAreaView style={styles.container}>
       <UserProvider>
@@ -47,9 +50,11 @@ export default function App() {
             <Stack.Screen name="Login" component={Login} />
             <Stack.Screen name="Signup" component={Signup} />
             <Stack.Screen name="Resources" component={Resources} />
+            <Stack.Screen name="Grocery" component={Grocery} />
           </Stack.Navigator>
         </NavigationContainer>
       </UserProvider>
+      {showGrocery && <Grocery />}
     </SafeAreaView>
   );
 }

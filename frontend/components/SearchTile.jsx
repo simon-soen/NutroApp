@@ -8,7 +8,7 @@ const SearchTile = ({ item }) => {
 
     const addToGrocery = async () => {
         try {
-            const response = await axios.post('http://192.168.8.101:5000/grocery/add', {
+            const response = await axios.post('http://192.168.0.118:5000/grocery/add', {
                 user_id: userData.user_id,
                 name: item,
                 quantity: '1', 

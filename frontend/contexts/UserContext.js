@@ -6,6 +6,7 @@ const UserContext = createContext();
 
 export const UserProvider = ({ children }) => {
   const [userData, setUserData] = useState(null);
+  const [groceryItems, setGroceryItems] = useState([]);
 
   const setUser = (user) => {
     setUserData(user);
@@ -18,10 +19,8 @@ export const UserProvider = ({ children }) => {
   const refreshGroceryList = async () => {
     if (userData) {
       try {
-        const response = await axios.get(`http://192.168.8.101:5000/grocery/${userData.user_id}`);
-        // Assuming the response contains the updated grocery items
-        // Update the grocery items in the context
-        // For example, setGroceryItems(response.data.grocery_items);
+        const response = await axios.get(`http://192.168.0.118:5000/grocery/${userData.user_id}`);
+        setGroceryItems(response.data); // Assuming the response contains the grocery items
       } catch (error) {
         console.error('Error refreshing grocery list:', error);
       }
@@ -47,7 +46,7 @@ export const UserProvider = ({ children }) => {
   }, []);
 
   return (
-    <UserContext.Provider value={{ userData, setUser, updateUser, refreshGroceryList }}>
+    <UserContext.Provider value={{ userData, setUser, updateUser, refreshGroceryList, groceryItems }}>
       {children}
     </UserContext.Provider>
   );

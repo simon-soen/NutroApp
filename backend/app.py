@@ -456,6 +456,21 @@ def is_meal_fit_for_user(meal_data, threshold_values):
     return True  # Meal passes the threshold test
 
 
+@app.route('/grocery/buy-all', methods=['POST'])
+def buy_all_grocery_items():
+    try:
+        data = request.json
+        user_id = data.get('user_id')
+
+        # Delete all grocery items associated with the user_id
+        GroceryItem.query.filter_by(user_id=user_id).delete()
+        db.session.commit()
+
+        return jsonify({'message': 'All items purchased successfully and removed from the grocery list.'}), 200
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+
 @app.route('/feedback', methods=['POST', 'OPTIONS'])
 def provide_feedback():
     try:
@@ -481,4 +496,4 @@ def provide_feedback():
 
     
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5001, debug=True)
+    app.run(host='0.0.0.0', port=5000, debug=True)

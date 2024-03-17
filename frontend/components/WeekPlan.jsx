@@ -9,7 +9,7 @@ const WeekPlan = () => {
 
   const generateMealPlan = async () => {
     try {
-      const response = await fetch(`http://192.168.8.101:5000/weekly_meal_plan/${userData.user_id}`);
+      const response = await fetch(`http://192.168.0.118:5000/weekly_meal_plan/${userData.user_id}`);
       if (response.ok) {
         const data = await response.json();
         setMealPlan(data);
@@ -24,7 +24,7 @@ const WeekPlan = () => {
 
   const regenerateMealPlan = async () => {
     try {
-      const response = await fetch(`http://192.168.8.101:5000/weekly_meal_plan/${userData.user_id}`, {
+      const response = await fetch(`http://192.168.0.118:5000/weekly_meal_plan/${userData.user_id}`, {
         method: 'PUT',
       });
       

@@ -1,11 +1,13 @@
-import React, { useState, useEffect } from "react";
-import{View, StyleSheet, Text, TextInput, Image, TouchableOpacity, SafeAreaView, ScrollView} from "react-native";
-import { useUser } from "../contexts/UserContext";
+import React, { useState, useEffect } from 'react';
+import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
+import { useUser } from '../contexts/UserContext';
+import { Ionicons } from '@expo/vector-icons';
+import { useNavigation } from '@react-navigation/native'; 
 
-
-const welcome = () => {
+const Welcome = () => {
     const { userData } = useUser();
     const [greeting, setGreeting] = useState('');
+    const navigation = useNavigation();
 
     useEffect(() => {
         const currentTime = new Date().getHours();
@@ -22,20 +24,28 @@ const welcome = () => {
         setGreeting(newGreeting);
     }, []);
 
+    const handleGroceryList = () => {
+        navigation.navigate('Grocery');
+    };
+
     return (
-        <SafeAreaView style={styles.firstContainer}>
+        <View style={styles.container}>
             <View style={styles.logobar}>
                 <View style={styles.profile}>                
                     <Image
-                        source={require("../assets/images/proff.jpg")}
-                        style={{ width: 50, height: 50, borderRadius:999}} />
+                        source={require('../assets/images/proff.jpg')}
+                        style={styles.profileImage}
+                    />
                     <View style={styles.nameCont}>
                         <Text style={styles.greetings}>{greeting}</Text>
                         {userData?.name && <Text style={styles.name}>{userData.name}</Text>}
                     </View>
                 </View>
+                <TouchableOpacity onPress={handleGroceryList} style={styles.cartContainer}>
+                    <Ionicons name="cart" size={30} color="white"  style={{marginTop: 5,}}/>
+                </TouchableOpacity>
             </View>
-            
+            {/* Other content */}
             <View style={styles.innerContainer}>
                 <View style={styles.decoContainer}>
                     <View style={styles.welcome}>
@@ -51,27 +61,56 @@ const welcome = () => {
                     </View>        
                 </View>
             </View>
-        </SafeAreaView>
+        </View>
     );
-}
-
-export default welcome;
-
+};
 
 const styles = StyleSheet.create({
+    container: {
+        marginLeft: '2%',
+        marginRight: '2%',
+        marginTop: 40,
+    },
+    logobar: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        width: '90%',
+        marginHorizontal: '5%',
+    },
+    profile: {
+        flexDirection: 'row',
+    },
+    profileImage: {
+        width: 50,
+        height: 50,
+        borderRadius: 999,
+    },
+    nameCont: {
+        marginHorizontal: 10,
+    },
+    greetings: {
+        fontFamily: 'regular',
+        fontSize: 13,
+        color: 'grey',
+    },
+    name: {
+        fontFamily: 'semibold',
+        fontSize: 19,
+    },
     firstContainer:{
         marginLeft: "2%",
         marginRight: "2%",
         marginTop: 40
     },
-    logobar:{
-        flexDirection: "row",
-        justifyContent: "space-between",
-        width: "90%",
-        marginHorizontal: "5%"
-    },
-    profile:{
-        flexDirection: "row"
+    logobar: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center', 
+        width: '90%',
+        marginHorizontal: '5%',
+    },profile: {
+        flexDirection: 'row',
+        alignItems: 'center',
     },
     nameCont:{
         marginHorizontal: 10
@@ -115,15 +154,6 @@ const styles = StyleSheet.create({
         
        
       },
-      name:{
-        fontFamily: "semibold",
-        fontSize: 19
-      },
-      greetings:{
-        fontFamily: "regular",
-        fontSize: 13,
-        color: "grey"
-      },
       touch:{
         width: 54,
         height: 44,
@@ -133,10 +163,14 @@ const styles = StyleSheet.create({
         marginTop : 3,
         marginHorizontal: 5
     },
-    greetings:{
-        fontFamily: "regular",
-        fontSize: 13,
-        color: "grey"
+    cartContainer: {
+        // flexDirection: 'row',
+        alignItems: 'center',
+        backgroundColor: 'green',
+        borderRadius: 60,
+        width: 40,
+        height: 40,
     },
-      
 });
+
+export default Welcome;

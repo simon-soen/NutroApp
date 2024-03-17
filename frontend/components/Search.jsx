@@ -13,7 +13,7 @@ const Search = () => {
 
   const handleSearch = async () => {
     try {
-      const response = await axios.post('http://192.168.8.101:5000/recommend_meals', {
+      const response = await axios.post('http://192.168.0.118:5000/recommend_meals', {
         user_id: userData.user_id,
         meal_name: searchKey
       });

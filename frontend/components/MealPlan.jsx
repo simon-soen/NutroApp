@@ -4,7 +4,7 @@ import { useUser } from "../contexts/UserContext";
 import axios from "axios";
 
 const MealPlan = () => {
-    const { userData, refreshGroceryList } = useUser();
+    const { userData, refreshGroceryList, groceryItems } = useUser(); // Assuming groceryItems is retrieved from the context
     const [mealPlan, setMealPlan] = useState(null);
     const [error, setError] = useState(null);
 
@@ -12,7 +12,7 @@ const MealPlan = () => {
         const fetchMealPlan = async () => {
             if (userData) {
                 try {
-                    const response = await fetch(`http://192.168.8.101:5000/weekly_meal_plan/${userData.user_id}`, { mode: 'cors' });
+                    const response = await fetch(`http://192.168.0.118:5000/weekly_meal_plan/${userData.user_id}`, { mode: 'cors' });
                     const data = await response.json();
                     const currentDate = new Date().toISOString().split('T')[0];
                     const todaysMealPlan = data[currentDate];
@@ -33,18 +33,24 @@ const MealPlan = () => {
         const meals = mealPlan[mealTime];
         try {
             for (const meal of meals) {
-                const response = await axios.post('http://192.168.8.101:5000/grocery/add', {
+                const existingItem = groceryItems.find(item => item.name === meal);
+                if (existingItem) {
+                    continue;
+                }
+    
+                const response = await axios.post('http://192.168.0.118:5000/grocery/add', {
                     user_id: userData.user_id,
                     name: meal,
                     quantity: '1', 
                 });
-                Alert.alert('Success', response.data.message); // Display backend message as an alert
+                Alert.alert('Success', response.data.message); 
                 refreshGroceryList();
             }
         } catch (error) {
             console.error('Error adding to grocery:', error);
         }
     };
+    
 
     return (
         <SafeAreaView style={styles.container}>
