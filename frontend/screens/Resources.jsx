@@ -1,9 +1,6 @@
 import React from "react";
 import { View, Text, StyleSheet, SafeAreaView, ScrollView } from "react-native";
-
-import CartScreen from "../components/cartScreen";
 import EducationArticles from "../components/EducationArticles";
-import VideoTutorials from "../components/VideoTutorials";
 import FeedbackAndSupport from "../components/FeedbackAndSupport";
 
 const Resources = () => {
