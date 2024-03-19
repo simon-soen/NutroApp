@@ -89,41 +89,7 @@ def get_grocery_items(user_id):
     return jsonify({'grocery_items': [{'id': item.id, 'name': item.name, 'quantity': item.quantity} for item in items]})
 
 
-# class Cart(db.Model):
-#     cart_id = db.Column(db.Integer, primary_key=True)
-#     user_id = db.Column(db.Integer, db.ForeignKey('user_profile.user_id'), nullable=False)
-#     meal_time = db.Column(db.String(50), nullable=False)
-#     meal_name = db.Column(db.Text, nullable=False)
 
-# @app.route('/cart', methods=['POST'])
-# def add_to_cart():
-#     data = request.json
-#     user_id = data.get('user_id')
-#     meal_time = data.get('meal_time')
-#     meal_name = data.get('meal_name')
-
-    # user = UserProfile.query.filter_by(user_id=user_id).first()
-    # if not user:
-    #     return jsonify({'message': 'User not found'}), 404
-
-    # cart_item = Cart(user_id=user_id, meal_time=meal_time, meal_name=meal_name)
-    # db.session.add(cart_item)
-    # db.session.commit()
-
-    # return jsonify({'message': 'Item added to cart successfully'}), 201
-
-# Route to retrieve cart items for a user
-# @app.route('/cart/<user_id>', methods=['GET'])
-# def get_cart_items(user_id):
-#     user = UserProfile.query.filter_by(user_id=user_id).first()
-#     if not user:
-#         return jsonify({'message': 'User not found'}), 404
-
-#     cart_items = Cart.query.filter_by(user_id=user_id).all()
-#     cart_data = [{'meal_time': item.meal_time, 'meal_name': item.meal_name} for item in cart_items]
-
-#     return jsonify({'cart_items': cart_data}), 200
-  
 @app.route('/recommend_meals',  methods=['POST', 'OPTIONS'])
 def recommend_meals():
     user_data = request.json
@@ -171,15 +137,13 @@ class WeeklyMealPlan(db.Model):
         return f'<WeeklyMealPlan ID {self.id}, Week {self.week_date}, User {self.user_id}>'
 
 MEAL_TIMES = ['breakfast', 'lunch', 'supper']
-
-@app.route('/weekly_meal_plan',  methods=['POST', 'OPTIONS'])
-def generate_weekly_meal_plan():
-    user_data = request.json
-    user_id = user_data.get('user_id')
-
-    # Fetch diagnosed conditions from the user profile
+@app.route('/weekly_meal_plan/<user_id>',  methods=['POST', 'OPTIONS'])
+def generate_weekly_meal_plan(user_id):
     user_profile = UserProfile.query.filter_by(user_id=user_id).first()
-    diagnosed_conditions = user_profile.diagnosed_conditions if user_profile else []
+    if not user_profile:
+        return jsonify({'message': 'User not found.'}), 404
+
+    diagnosed_conditions = user_profile.diagnosed_conditions
 
     # Initialize an empty meal plan dictionary
     weekly_meal_plan = {}
@@ -197,6 +161,7 @@ def generate_weekly_meal_plan():
     db.session.commit()
 
     return jsonify({'message': 'Weekly meal plan generated successfully.'})
+
 
 def generate_daily_meals(diagnosed_conditions):
     weekly_meal_plan = {}

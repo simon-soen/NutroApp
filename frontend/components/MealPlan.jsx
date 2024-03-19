@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { SafeAreaView, ScrollView, StyleSheet, Text, ImageBackground, View, TouchableOpacity, Button, Alert } from "react-native";
+import { SafeAreaView, ScrollView, StyleSheet, Text, ImageBackground, View, TouchableOpacity, Button, Alert, ActivityIndicator } from "react-native";
 import { useUser } from "../contexts/UserContext";
 import axios from "axios";
 import { API_URL } from '@env';
@@ -8,10 +8,12 @@ const MealPlan = () => {
     const { userData, refreshGroceryList, groceryItems } = useUser(); // Assuming groceryItems is retrieved from the context
     const [mealPlan, setMealPlan] = useState(null);
     const [error, setError] = useState(null);
+    const [loading, setLoading] = useState(false); // Add loading state
 
     useEffect(() => {
         const fetchMealPlan = async () => {
             if (userData) {
+                setLoading(true); // Set loading to true when fetching starts
                 try {
                     const response = await fetch(`${API_URL}/weekly_meal_plan/${userData.user_id}`, { mode: 'cors' });
                     const data = await response.json();
@@ -23,12 +25,14 @@ const MealPlan = () => {
                     setMealPlan(null);
                     setError('User data is required to fetch the meal plan. Please log in.');
                     console.error('Error fetching meal plan:', error);
+                } finally {
+                    setLoading(false); // Set loading to false when fetching ends (either success or error)
                 }
             }
         };
 
         fetchMealPlan();
-    }, [userData]);
+    }, [userData, mealPlan]);
 
     const addToGrocery = async (mealTime) => {
         const meals = mealPlan[mealTime];
@@ -56,7 +60,9 @@ const MealPlan = () => {
     return (
         <SafeAreaView style={styles.container}>
             <Text style={styles.heading}>Today's Meal Plan</Text>
-            {error ? (
+            {loading ? ( // Show loading indicator if loading is true
+                <ActivityIndicator size="large" color="#0000ff" />
+            ) : error ? (
                 <Text style={styles.errorText}>{error}</Text>
             ) : (
                 <ScrollView horizontal contentContainerStyle={styles.scrollViewContent}>

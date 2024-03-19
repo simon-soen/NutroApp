@@ -10,16 +10,16 @@ const styles = StyleSheet.create({
       },
       innerCont:{
         width: SIZES.width * 0.9,
-        height:SIZES.height * 0.45,
+        height:SIZES.height * 0.8,
         borderRadius: 20,
         backgroundColor: "#fff",
-        // alignItems: 'center',
         shadowColor: '#000',
         shadowOffset: { width: 0, height: 2 },
         shadowOpacity: 0.35,
         shadowRadius: 4,
         elevation: 10, // For Android
         position: 'absolute',
+        
       },
       loginCont:{
         width: '80%',
@@ -67,8 +67,8 @@ const styles = StyleSheet.create({
     
       },
       signup: {
-        width: '70%',
-        flexDirection: 'row',
+        width: '60%',
+        flexDirection: 'column',
         marginTop: 20,
         alignSelf:"center"
       },

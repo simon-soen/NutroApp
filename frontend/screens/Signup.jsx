@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, Button, TouchableOpacity, Image } from 'react-native';
+import { View, Text, TextInput, Button, TouchableOpacity, Image,Alert } from 'react-native';
 import { SIZES } from '../constants';
 import styles from './auth.styles';
-
+import {API_URL} from '@env'
 // Define your signup component
 const Signup = ({ navigation }) => {
     const [userId, setUserId] = useState('');
@@ -11,7 +11,7 @@ const Signup = ({ navigation }) => {
   
     const handleSignup = async () => {
       try {
-        const response = await fetch('http://192.168.0.112:5000/signup', {
+        const response = await fetch(`${API_URL}/signup`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -21,7 +21,7 @@ const Signup = ({ navigation }) => {
         const data = await response.json();
   
         console.log('Signup successful');
-        navigation.navigate('Home');
+        Alert.alert('Sign up successful')
       } catch (error) {
         console.error('Error occurred during signup:', error);
       }
@@ -61,6 +61,12 @@ const Signup = ({ navigation }) => {
             <TouchableOpacity style={styles.loginCont} onPress={handleSignup} >
                 <Text style={styles.loginText}>Sign Up</Text>
             </TouchableOpacity>
+            <TouchableOpacity style={styles.signup} onPress={() => navigation.navigate('Login')}>
+          <View  style={{flexDirection:"row"}}>
+          <Text style={styles.signtext}>Have an account? </Text>
+          <Text style={{ color: '#4d8076', fontSize:15, fontFamily: "regular",}}>Login</Text>
+          </View>
+        </TouchableOpacity>
         </View>
       </View>
     );

@@ -28,35 +28,36 @@ const Login = ({ navigation }) => {
         
         // Update user context with fetched data
         setUser(data.user_profile);
-        
-        console.log('Login successful');
-        navigation.navigate('Home'); 
+
+        if (data.user_profile.name && data.user_profile.age && data.user_profile.diagnosed_conditions) {
+          navigation.navigate('Home');
+          
+        } else {
+          navigation.navigate('Profile'); // Navigate to profile page if necessary data is not available
+        }
       } else {
-        Alert.alert('Error: Invalid Credentials')
+        Alert.alert('Error: Invalid Credentials');
       }
     } catch (error) {
       console.error('Error occurred during login:', error);
-      Alert.alert('Error', error.data)
+      Alert.alert('Error', 'An error occurred during login. Please try again later.');
     }
-    navigation.navigate('Profile');
-
   };
 
   return (
-    // <SafeAreaView >
     <View style={styles.container}>
       <View style={{}}>
-       <Image
-            source={require('../assets/images/nicebg.jpg')}
-            style={{height:SIZES.height, width:SIZES.width, resizeMode: 'cover'}}
-        />
-        </View>
-      <View style={styles.innerCont}>
-      <View style={styles.profile}>                
         <Image
+          source={require('../assets/images/nicebg.jpg')}
+          style={{height:SIZES.height, width:SIZES.width, resizeMode: 'cover'}}
+        />
+      </View>
+      <View style={styles.innerCont}>
+        <View style={styles.profile}>                
+          <Image
             source={require('../assets/images/login.jpeg')}
             style={styles.profileImage}
-        />
+          />
         </View>
         <Text style={styles.login}>Login</Text>
         <Text style={styles.label}>User ID</Text>
@@ -74,22 +75,18 @@ const Login = ({ navigation }) => {
           value={password}
           secureTextEntry={true}
         />
-        {/* <Button title="Login" /> */}
-
         <TouchableOpacity style={styles.loginCont} onPress={handleLogin} >
           <Text style={styles.loginText}>Login</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.signup} onPress={() => navigation.navigate('Signup')}>
           <View  style={{flexDirection:"row"}}>
-          <Text style={styles.signtext}>Don't have an account? </Text>
-          <Text style={{ color: '#4d8076', fontSize:15, fontFamily: "regular",}}>Sign up</Text>
+            <Text style={styles.signtext}>Don't have an account? </Text>
+            <Text style={{ color: '#4d8076', fontSize:15, fontFamily: "regular",}}>Sign up</Text>
           </View>
         </TouchableOpacity>
       </View>
     </View>
-    //  </SafeAreaView>
   );
 };
-
 
 export default Login;
