@@ -22,7 +22,7 @@ const Profile = ({ navigation }) => {
 
   const fetchUserProfile = async () => {
     try {
-      const response = await axios.get(`${API_URL}/profile/${userData.user_id}`);
+      const response = await axios.get('http://192.168.0.112:5000/profile/${userData.user_id}');
       if (response.status === 200) {
         const userData = response.data;
         setName(userData.name || "");
@@ -38,21 +38,22 @@ const Profile = ({ navigation }) => {
   };
 
   const updateUserProfile = async () => {
-    try {
-      const response = await axios.put(`${API_URL}/profile/${userData.user_id}`, {
-        name,
-        age: parseInt(age),
-        diagnosed_conditions: diagnosedConditions.split(",").map(condition => condition.trim())
-      });
-      if (response.status === 200) {
-        Alert.alert("Success", "Profile updated successfully.");
-      } else {
-        Alert.alert("Error", "Failed to update profile.");
-      }
-    } catch (error) {
-      console.error('Error updating user profile:', error);
-      Alert.alert("Error", "An error occurred while updating profile. Please try again later.");
-    }
+    // try {
+    //   const response = await axios.put('http://192.168.0.112:5000/profile/${userData.user_id}', {
+    //     name,
+    //     age: parseInt(age),
+    //     diagnosed_conditions: diagnosedConditions.split(",").map(condition => condition.trim())
+    //   });
+    //   if (response.status === 200) {
+    //     Alert.alert("Success", "Profile updated successfully.");
+    //   } else {
+    //     Alert.alert("Error", "Failed to update profile.");
+    //   }
+    // } catch (error) {
+    //   console.error('Error updating user profile:', error);
+    //   Alert.alert("Error", "An error occurred while updating profile. Please try again later.");
+    // }
+    navigation.navigate('Home');
   };
 
   const deleteAccount = async () => {
@@ -60,7 +61,7 @@ const Profile = ({ navigation }) => {
       // Implement account deletion logic here
     } catch (error) {
       console.error('Error deleting account:', error);
-      Alert.alert("Error", "An error occurred while deleting account. Please try again later.");
+      // Alert.alert("Error", "An error occurred while deleting account. Please try again later.");
     }
   };
 
@@ -73,12 +74,14 @@ const Profile = ({ navigation }) => {
     <ScrollView style={style.container}>
       <StatusBar barStyle="white-content" backgroundColor={COLORS.primary} />
       <View style={style.header}>
+        <View style={style.coverCont}>
         <View style={style.cover}>
           <View style={style.profilePictureContainer}>
             <Image
-              source={require('../assets/images/proff.jpg')} // Add the path to your dummy profile picture
+              source={require('../assets/images/mali2bg.png')} // Add the path to your dummy profile picture
               style={style.profilePicture}
             />
+          </View>
           </View>
           <Text style={style.name}>{userData ? userData.name : ""}</Text>
           {userData ? (
@@ -103,7 +106,7 @@ const Profile = ({ navigation }) => {
                   style={style.input}
                   value={name}
                   onChangeText={setName}
-                  placeholder="Name"
+                  placeholder="Update your Name"
                 />
               </View>
               <View style={style.menuItem}>
@@ -112,7 +115,7 @@ const Profile = ({ navigation }) => {
                   style={style.input}
                   value={age}
                   onChangeText={setAge}
-                  placeholder="Age"
+                  placeholder="Update your Age"
                   keyboardType="numeric"
                 />
               </View>
@@ -128,11 +131,6 @@ const Profile = ({ navigation }) => {
               <TouchableOpacity onPress={updateUserProfile}>
                 <View style={style.button}>
                   <Text style={style.buttonText}>Update Profile</Text>
-                </View>
-              </TouchableOpacity>
-              <TouchableOpacity onPress={deleteAccount}>
-                <View style={[style.button, style.deleteButton]}>
-                  <Text style={style.buttonText}>Delete Account</Text>
                 </View>
               </TouchableOpacity>
               <TouchableOpacity onPress={logout}>

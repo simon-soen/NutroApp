@@ -35,7 +35,7 @@ const Signup = ({ navigation }) => {
             style={{height:SIZES.height, width:SIZES.width, resizeMode: 'cover'}}
         />
         <View style={styles.innerCont}>
-            <Text style={styles.login}>Signup</Text>
+            <Text style={styles.login}>Sign Up</Text>
             <Text style={styles.label}>User ID</Text>
             <TextInput
                 style={styles.input}

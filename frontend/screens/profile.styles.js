@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { COLORS } from '../constants';
+import { COLORS, SIZES } from '../constants';
 
 const style = StyleSheet.create({
    container:{
@@ -9,18 +9,23 @@ const style = StyleSheet.create({
   header: {
     backgroundColor: COLORS.white,
   },
+  coverCont:{
+    height:SIZES.height*0.37,
+
+  },
   cover: {
     alignItems: 'center',
     paddingVertical: 20,
     backgroundColor: COLORS.primary,
-    height:200,
+    height:SIZES.height*0.2,
   },
   profilePictureContainer: {
-    width: 120,
-    height: 120,
-    borderRadius: 60,
+    width: "70%",
+    height: 270,
+    borderRadius: 20,
+    marginTop: 20,
     overflow: 'hidden',
-    marginBottom: 10,
+    backgroundColor: "white"
   },
   profilePicture: {
     width: '100%',
@@ -50,9 +55,10 @@ const style = StyleSheet.create({
   },
   sectionHeader: {
     fontFamily: 'bold',
-    fontSize: 20,
+    fontSize: 25,
     color: COLORS.primary,
     marginBottom: 10,
+    textAlign: 'center',
   },
   menuItem: {
     marginBottom: 15,
@@ -60,15 +66,16 @@ const style = StyleSheet.create({
   label: {
     fontFamily: 'regular',
     fontSize: 16,
-    color: COLORS.primary,
+    color: "#000",
     marginBottom: 5,
+    marginTop: 10,
   },
   input: {
     fontFamily: 'regular',
     fontSize: 16,
     borderWidth: 1,
     borderColor: COLORS.gray,
-    borderRadius: 5,
+    borderRadius: 7,
     paddingVertical: 8,
     paddingHorizontal: 10,
   },
@@ -78,6 +85,7 @@ const style = StyleSheet.create({
     paddingHorizontal: 20,
     borderRadius: 5,
     alignItems: 'center',
+    marginTop: 20, 
   },
   // buttonText: {
   //   fontFamily: 'regular',
@@ -89,7 +97,7 @@ const style = StyleSheet.create({
     marginTop: 10,
   },
   logoutButton: {
-    backgroundColor: COLORS.red, // Define your preferred background color
+    backgroundColor: COLORS.red, 
     paddingVertical: 12,
     paddingHorizontal: 24,
     borderRadius: 10,
@@ -98,9 +106,9 @@ const style = StyleSheet.create({
   },
   
   buttonText: {
-    color: COLORS.white,
+    color: "#fff",
     fontSize: 16,
-    fontWeight: "bold",
+    fontFamily: "bold",
   },
 });
 

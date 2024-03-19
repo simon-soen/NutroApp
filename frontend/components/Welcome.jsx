@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import { useUser } from '../contexts/UserContext';
 import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native'; 
+import { COLORS } from '../constants';
 
 const Welcome = () => {
     const { userData } = useUser();
@@ -42,7 +43,7 @@ const Welcome = () => {
                     </View>
                 </View>
                 <TouchableOpacity onPress={handleGroceryList} style={styles.cartContainer}>
-                    <Ionicons name="cart" size={30} color="white"  style={{marginTop: 5,}}/>
+                    <Ionicons name="cart" size={30} color="white"  style={{marginTop: 5, backgroundColor:COLORS.primary}}/>
                 </TouchableOpacity>
             </View>
             {/* Other content */}
@@ -117,15 +118,16 @@ const styles = StyleSheet.create({
     },
     innerContainer:{
         height: 200,
-        backgroundColor: "#845ec2",
+        backgroundColor: COLORS.primary,
         marginTop: 20
     },
     welcome:{
-        marginTop: 20,
+        marginTop: 50,
+        
     },
     description:{
         textAlign: "center",
-        fontSize: 34,
+        fontSize: 38,
         fontFamily: "bold",
         color: "#fff"
     },
