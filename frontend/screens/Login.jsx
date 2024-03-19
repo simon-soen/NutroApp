@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, Button, StyleSheet, Alert } from 'react-native';
+import { View, Text, TextInput, Image, StyleSheet, Alert, SafeAreaView, TouchableOpacity } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useUser, updateUser } from "../contexts/UserContext"; // Import updateUser from UserContext
 import { API_URL } from '@env';
+import { SIZES } from '../constants';
+import styles from './auth.styles';
 
 const Login = ({ navigation }) => {
   const [userId, setUserId] = useState('');
@@ -36,96 +38,58 @@ const Login = ({ navigation }) => {
       console.error('Error occurred during login:', error);
       Alert.alert('Error', error.data)
     }
+    navigation.navigate('Profile');
+
   };
 
   return (
+    // <SafeAreaView >
     <View style={styles.container}>
-      <Text>Login</Text>
-      <TextInput
-        style={styles.input}
-        placeholder="User ID"
-        onChangeText={setUserId}
-        value={userId}
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="Password"
-        onChangeText={setPassword}
-        value={password}
-        secureTextEntry={true}
-      />
-      <Button title="Login" onPress={handleLogin} />
-      <Button title="Sign Up" onPress={() => navigation.navigate('Signup')} />
+      <View style={{}}>
+       <Image
+            source={require('../assets/images/nicebg.jpg')}
+            style={{height:SIZES.height, width:SIZES.width, resizeMode: 'cover'}}
+        />
+        </View>
+      <View style={styles.innerCont}>
+      <View style={styles.profile}>                
+        <Image
+            source={require('../assets/images/login.jpeg')}
+            style={styles.profileImage}
+        />
+        </View>
+        <Text style={styles.login}>Login</Text>
+        <Text style={styles.label}>User ID</Text>
+        <TextInput
+          style={styles.input}
+          placeholder="Enter your User ID"
+          onChangeText={setUserId}
+          value={userId}
+        />
+        <Text style={styles.label}>Password</Text>
+        <TextInput
+          style={styles.input}
+          placeholder="Enter your Password"
+          onChangeText={setPassword}
+          value={password}
+          secureTextEntry={true}
+        />
+        {/* <Button title="Login" /> */}
+
+        <TouchableOpacity style={styles.loginCont} onPress={handleLogin} >
+          <Text style={styles.loginText}>Login</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.signup} onPress={() => navigation.navigate('Signup')}>
+          <View  style={{flexDirection:"row"}}>
+          <Text style={styles.signtext}>Don't have an account? </Text>
+          <Text style={{ color: '#4d8076', fontSize:15, fontFamily: "regular",}}>Sign up</Text>
+          </View>
+        </TouchableOpacity>
+      </View>
     </View>
+    //  </SafeAreaView>
   );
 };
 
-// Define your signup component
-const Signup = ({ navigation }) => {
-  const [userId, setUserId] = useState('');
-  const [name, setName] = useState('');
-  const [password, setPassword] = useState('');
 
-  const handleSignup = async () => {
-    try {
-      const response = await fetch(`${API_URL}/signup`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ user_id: userId, name: name, password: password }),
-      });
-      const data = await response.json();
-
-      console.log('Signup successful');
-      navigation.navigate('Home');
-    } catch (error) {
-      console.error('Error occurred during signup:', error);
-    }
-  };
-
-  return (
-    <View style={styles.container}>
-      <Text>Signup</Text>
-      <TextInput
-        style={styles.input}
-        placeholder="User ID"
-        onChangeText={setUserId}
-        value={userId}
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="Name"
-        onChangeText={setName}
-        value={name}
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="Password"
-        onChangeText={setPassword}
-        value={password}
-        secureTextEntry={true}
-      />
-      <Button title="Sign Up" onPress={handleSignup} />
-      <Button title="Back to Login" onPress={() => navigation.navigate('Login')} />
-    </View>
-  );
-};
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  input: {
-    width: '80%',
-    height: 40,
-    borderWidth: 1,
-    borderColor: '#ccc',
-    marginBottom: 10,
-    paddingHorizontal: 10,
-  },
-});
-
-export { Login, Signup };
+export default Login;

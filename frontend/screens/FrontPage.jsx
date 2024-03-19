@@ -24,7 +24,7 @@ const FrontPage = ({ navigation }) => {
                 <View style={styles.btnContainer}>
                     <TouchableOpacity 
                         style={styles.btn}
-                        onPress={() => navigation.navigate("Home")}
+                        onPress={() => navigation.navigate("Login")}
                     >
                         <Text style={{color: "white", fontSize: 20, fontFamily: "bold"}}>Get Started</Text>
                     </TouchableOpacity>

@@ -1,7 +1,8 @@
 import Home from "./Home";
 import WeekPlan from "../components/WeekPlan";
 import Profile from "./Profile";
-import {Login, Signup} from "./Login";
+import Login from "./Login";
+import Signup from "./Signup";
 import Resources from "./Resources";
 import FrontPage from "./FrontPage";
 import Search from "../components/Search";

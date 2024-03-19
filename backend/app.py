@@ -89,40 +89,40 @@ def get_grocery_items(user_id):
     return jsonify({'grocery_items': [{'id': item.id, 'name': item.name, 'quantity': item.quantity} for item in items]})
 
 
-class Cart(db.Model):
-    cart_id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('user_profile.user_id'), nullable=False)
-    meal_time = db.Column(db.String(50), nullable=False)
-    meal_name = db.Column(db.Text, nullable=False)
+# class Cart(db.Model):
+#     cart_id = db.Column(db.Integer, primary_key=True)
+#     user_id = db.Column(db.Integer, db.ForeignKey('user_profile.user_id'), nullable=False)
+#     meal_time = db.Column(db.String(50), nullable=False)
+#     meal_name = db.Column(db.Text, nullable=False)
 
-@app.route('/cart', methods=['POST'])
-def add_to_cart():
-    data = request.json
-    user_id = data.get('user_id')
-    meal_time = data.get('meal_time')
-    meal_name = data.get('meal_name')
+# @app.route('/cart', methods=['POST'])
+# def add_to_cart():
+#     data = request.json
+#     user_id = data.get('user_id')
+#     meal_time = data.get('meal_time')
+#     meal_name = data.get('meal_name')
 
-    user = UserProfile.query.filter_by(user_id=user_id).first()
-    if not user:
-        return jsonify({'message': 'User not found'}), 404
+    # user = UserProfile.query.filter_by(user_id=user_id).first()
+    # if not user:
+    #     return jsonify({'message': 'User not found'}), 404
 
-    cart_item = Cart(user_id=user_id, meal_time=meal_time, meal_name=meal_name)
-    db.session.add(cart_item)
-    db.session.commit()
+    # cart_item = Cart(user_id=user_id, meal_time=meal_time, meal_name=meal_name)
+    # db.session.add(cart_item)
+    # db.session.commit()
 
-    return jsonify({'message': 'Item added to cart successfully'}), 201
+    # return jsonify({'message': 'Item added to cart successfully'}), 201
 
 # Route to retrieve cart items for a user
-@app.route('/cart/<user_id>', methods=['GET'])
-def get_cart_items(user_id):
-    user = UserProfile.query.filter_by(user_id=user_id).first()
-    if not user:
-        return jsonify({'message': 'User not found'}), 404
+# @app.route('/cart/<user_id>', methods=['GET'])
+# def get_cart_items(user_id):
+#     user = UserProfile.query.filter_by(user_id=user_id).first()
+#     if not user:
+#         return jsonify({'message': 'User not found'}), 404
 
-    cart_items = Cart.query.filter_by(user_id=user_id).all()
-    cart_data = [{'meal_time': item.meal_time, 'meal_name': item.meal_name} for item in cart_items]
+#     cart_items = Cart.query.filter_by(user_id=user_id).all()
+#     cart_data = [{'meal_time': item.meal_time, 'meal_name': item.meal_name} for item in cart_items]
 
-    return jsonify({'cart_items': cart_data}), 200
+#     return jsonify({'cart_items': cart_data}), 200
   
 @app.route('/recommend_meals',  methods=['POST', 'OPTIONS'])
 def recommend_meals():
