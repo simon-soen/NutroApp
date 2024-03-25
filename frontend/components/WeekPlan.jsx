@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Button, Alert, ActivityIndicator } from 'react-native';
+import { View, Button, Alert, ActivityIndicator, TouchableOpacity, Text } from 'react-native';
 import { useUser } from '../contexts/UserContext';
 import WeeklyMealPlan from './WeeklyMealPlan';
 import { API_URL } from '@env';
@@ -80,7 +80,7 @@ const WeekPlan = () => {
   return (
     <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', marginBottom: 100 }}>
       <View style={{ flexDirection: 'row', justifyContent: 'space-around', width: '100%' }}>
-        <Button title="Weekly Meal Plan" onPress={fetchMealPlan} />
+          <Text style={{color:"#000", fontSize: 24}}>Weekly Meal Plan</Text>
       </View>
       {loading ? ( // Show loading indicator if loading is true
         <ActivityIndicator size="large" color="#0000ff" />
@@ -89,8 +89,10 @@ const WeekPlan = () => {
       ) : (
         <Button title="Generate Weekly Meal Plan" onPress={generateMealPlan} />
       )}
-
-      <Button title="Regenerate Weekly Meal Plan" onPress={regenerateMealPlan} />
+  
+      <TouchableOpacity style={{backgroundColor: "#4d8076", padding:10, borderRadius:5 }} onPress={regenerateMealPlan} >
+          <Text style={{color:"#fff"}}>Regenerate Weekly Meal Plan</Text>
+         </TouchableOpacity>
     </View>
   );
 };

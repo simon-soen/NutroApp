@@ -12,8 +12,7 @@ const MealPlan = () => {
 
     useEffect(() => {
         const fetchMealPlan = async () => {
-            if (userData) {
-                setLoading(true); // Set loading to true when fetching starts
+            if (userData) { // Set loading to true when fetching starts
                 try {
                     const response = await fetch(`${API_URL}/weekly_meal_plan/${userData.user_id}`, { mode: 'cors' });
                     const data = await response.json();
@@ -25,9 +24,7 @@ const MealPlan = () => {
                     setMealPlan(null);
                     setError('User data is required to fetch the meal plan. Please log in.');
                     console.error('Error fetching meal plan:', error);
-                } finally {
-                    setLoading(false); // Set loading to false when fetching ends (either success or error)
-                }
+                } 
             }
         };
 

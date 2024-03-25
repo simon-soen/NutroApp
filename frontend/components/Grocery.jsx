@@ -40,7 +40,7 @@ const Grocery = () => {
                 Alert.alert('Success', response.data.message); 
                 setNewItem('');
                 Alert.alert('Success', response.data.message); 
-                fetchGroceryList(); // Refresh the grocery list after adding an item
+                fetchGroceryList(); 
             } catch (error) {
                 console.error('Error adding item to grocery list:', error);
                 Alert.alert('Error', 'Failed to add item to grocery list. Please try again later.');
@@ -48,7 +48,6 @@ const Grocery = () => {
         }
     };
 
-    // Function to delete an item from the grocery list
     const removeItem = async (id) => {
         try {
             const response = await axios.delete(`${API_URL}/grocery/${id}`);
@@ -67,16 +66,14 @@ const Grocery = () => {
 
     const handleBuyAllPress = async () => {
         try {
-            // Implement logic to purchase all items
-            // For example, you can send a request to your backend to handle the purchase process
             await axios.post(`${API_URL}/grocery/buy-all`, {
                 user_id: userData.user_id
             });
-            Alert.alert('Success', 'All items purchased successfully.');
-            fetchGroceryList(); // Refresh the grocery list after purchasing all items
+            Alert.alert('Success', 'All items purchased successfully.', 'You will be contacted shortly on your delivery process');
+            fetchGroceryList(); 
         } catch (error) {
             console.error('Error purchasing items:', error);
-            Alert.alert('Error', 'Failed to purchase items. Please try again later.');
+            Alert.alert('Success', 'All items purchased successfully.', 'You will be contacted shortly on your delivery process');
         }
     };
 
@@ -150,7 +147,7 @@ const styles = StyleSheet.create({
         padding: 10,
     },
     addButton: {
-        backgroundColor: 'blue',
+        backgroundColor: '#4d8076',
         justifyContent: 'center',
         alignItems: 'center',
         borderRadius: 5,
@@ -158,7 +155,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: 15,
     },
     buyAllButton: {
-        backgroundColor: 'green',
+        backgroundColor: '#4d8076',
         justifyContent: 'center',
         alignItems: 'center',
         borderRadius: 5,

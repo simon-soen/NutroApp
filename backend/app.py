@@ -385,24 +385,24 @@ def logout():
         
 @app.route('/check_meal/<user_id>', methods=['POST', 'OPTIONS'])
 def check_meal_fit(user_id):
-    # Get user's diagnosed conditions
+    
     user_profile = UserProfile.query.filter_by(user_id=user_id).first()
     if user_profile is None:
         return jsonify({'error': 'User not found'}), 404
     
     diagnosed_conditions = user_profile.diagnosed_conditions
 
-    # Get meal name from request data
+
     meal_data = request.json
     meal_name = meal_data.get('meal_name')
 
-    # Fetch the meal from the dataset
+
     meal_row = df[df['name'] == meal_name]
 
     if meal_row.empty:
         return jsonify({'message': 'Meal not found.'}), 404
 
-    # Check if the meal fits the user's dietary requirements based on threshold values
+
     meal_fit = True
     for condition in diagnosed_conditions:
         if condition in threshold_values:
@@ -419,12 +419,12 @@ def check_meal_fit(user_id):
     return jsonify({'meal_fit': meal_fit})
 
 def is_meal_fit_for_user(meal_data, threshold_values):
-    # Check if the meal passes the threshold test
+
     for condition, thresholds in threshold_values.items():
         for key, value in thresholds.items():
             if meal_data[key].iloc[0] < value:
-                return False  # Meal does not pass the threshold test
-    return True  # Meal passes the threshold test
+                return False 
+    return True  
 
 
 @app.route('/grocery/buy-all', methods=['POST'])
@@ -433,7 +433,6 @@ def buy_all_grocery_items():
         data = request.json
         user_id = data.get('user_id')
 
-        # Delete all grocery items associated with the user_id
         GroceryItem.query.filter_by(user_id=user_id).delete()
         db.session.commit()
 
@@ -453,10 +452,8 @@ def provide_feedback():
             user_id=feedback_data['user_id'],
             recommendation=feedback_data['recommendation'],
             rating=feedback_data['rating']
-            # Add more fields as needed
         )
 
-        # Add the feedback to the database
         db.session.add(new_feedback)
         db.session.commit()
 

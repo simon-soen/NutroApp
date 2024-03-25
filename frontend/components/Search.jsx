@@ -34,7 +34,7 @@ const Search = () => {
           style={styles.searchInput}
           value={searchKey}
           onChangeText={setSearchKey}
-          placeholder="Search by meal name...."
+          placeholder="Search optional meal by meal name...."
           onSubmitEditing={handleSearch}
         />
         <TouchableOpacity style={styles.searchButton} onPress={handleSearch}>

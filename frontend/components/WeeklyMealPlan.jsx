@@ -6,12 +6,10 @@ const WeeklyMealPlan = ({ mealPlan }) => {
   const [selectedMealTime, setSelectedMealTime] = useState(null);
 
   useEffect(() => {
-    // Reset selectedDay and selectedMealTime when mealPlan changes
     setSelectedDay(null);
     setSelectedMealTime(null);
   }, [mealPlan]);
 
-  console.log('mealPlan:', mealPlan); // Add logging here
 
   if (!mealPlan || Object.keys(mealPlan).length === 0) {
     return (
